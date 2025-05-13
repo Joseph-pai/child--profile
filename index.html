@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孩子個人成長檔案</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1><span id="profileChildNameHeader">孩子</span>的個人成長檔案</h1>
+        <nav>
+            <button data-target="home">首頁 / 儀表板</button>
+            <button data-target="academic">學業表現區</button>
+            <button data-target="lifeCharacter">生活與品格區</button>
+            <button data-target="faithJourney">信仰之旅區</button>
+            <button data-target="goalsReflection">目標設定与反思</button>
+            <button data-target="milestones">珍藏回憶</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="tab-content active">
+            <h2>首頁 / 儀表板</h2>
+            <div class="form-group">
+                <label for="childName">孩子姓名：</label>
+                <input type="text" id="childName" data-field="basicInfo.name">
+            </div>
+            <div class="form-group">
+                <label for="childNickname">暱稱：</label>
+                <input type="text" id="childNickname" data-field="basicInfo.nickname">
+            </div>
+            <div class="form-group">
+                <label for="childAgeGrade">年齡/年級：</label>
+                <input type="text" id="childAgeGrade" data-field="basicInfo.ageGrade">
+            </div>
+            <div class="form-group">
+                <label for="favoriteVerse">最喜歡的經文：</label>
+                <input type="text" id="favoriteVerse" data-field="basicInfo.favoriteVerse">
+            </div>
+            <h3>近期亮點預覽</h3>
+            <p id="recentHighlightsPreview">（此處將顯示近期更新摘要）</p>
+        </section>
+
+        <section id="academic" class="tab-content">
+            <h2>學業表現區</h2>
+            <h3>課業學習成績曲線</h3>
+            <div class="form-group">
+                <label for="gradesInput">成績記錄 (格式: 學期,國文,英文,數學,自然,社會; 每行一筆):</label>
+                <textarea id="gradesInput" rows="5" placeholder="例如: 三年級上,85,90,88,80,82" data-field="academic.gradesText"></textarea>
+                <div id="gradesCurveChartContainer" style="width: 80%; max-width: 600px; margin-top:10px;">
+                    <canvas id="gradesCurveChart"></canvas>
+                </div>
+            </div>
+
+            <h3>學科強弱分析</h3>
+            <div class="form-group radar-inputs">
+                <label>國文: <input type="number" id="subjectChinese" min="0" max="100" value="70" data-radar="subjectAnalysis" data-radar-label="國文"></label>
+                <label>英文: <input type="number" id="subjectEnglish" min="0" max="100" value="70" data-radar="subjectAnalysis" data-radar-label="英文"></label>
+                <label>數學: <input type="number" id="subjectMath" min="0" max="100" value="70" data-radar="subjectAnalysis" data-radar-label="數學"></label>
+                <label>自然: <input type="number" id="subjectScience" min="0" max="100" value="70" data-radar="subjectAnalysis" data-radar-label="自然"></label>
+                <label>社會: <input type="number" id="subjectSocial" min="0" max="100" value="70" data-radar="subjectAnalysis" data-radar-label="社會"></label>
+                <button type="button" onclick="updateRadarChart('subjectAnalysisChart', 'subjectAnalysis')">更新學科分析圖</button>
+            </div>
+            <div style="width: 80%; max-width: 400px;">
+                <canvas id="subjectAnalysisChart"></canvas>
+            </div>
+
+            <h3>老師的學習建議與成果追蹤</h3>
+            <textarea placeholder="記錄老師的建議和成果追蹤..." rows="5" data-field="academic.teacherSuggestions"></textarea>
+        </section>
+
+        <section id="lifeCharacter" class="tab-content">
+            <h2>生活與品格區</h2>
+            <h3>生活習慣記錄</h3>
+            <textarea placeholder="記錄生活習慣，如作息、螢幕時間、家務、靈修等..." rows="5" data-field="lifeCharacter.habitsLog"></textarea>
+
+            <h3>價值觀培養</h3>
+            <div class="form-group radar-inputs">
+                <label>愛: <input type="number" id="valueLove" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="愛"></label>
+                <label>喜樂: <input type="number" id="valueJoy" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="喜樂"></label>
+                <label>和平: <input type="number" id="valuePeace" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="和平"></label>
+                <label>忍耐: <input type="number" id="valuePatience" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="忍耐"></label>
+                <label>恩慈: <input type="number" id="valueKindness" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="恩慈"></label>
+                <label>良善: <input type="number" id="valueGoodness" min="1" max="5" value="3" data-radar="valuesDevelopment" data-radar-label="良善"></label>
+                <button type="button" onclick="updateRadarChart('valuesDevelopmentChart', 'valuesDevelopment')">更新價值觀圖</button>
+            </div>
+            <div style="width: 80%; max-width: 400px;">
+                <canvas id="valuesDevelopmentChart"></canvas>
+            </div>
+
+            <h3>自我價值認知</h3>
+            <textarea placeholder="記錄孩子對自我價值的看法、輔導對話等..." rows="5" data-field="lifeCharacter.selfWorth"></textarea>
+        </section>
+
+        <section id="faithJourney" class="tab-content">
+            <h2>信仰之旅區</h2>
+            <h3>信仰的啟蒙與認識</h3>
+            <textarea placeholder="記錄主日學、營會經歷，對信仰的提問與理解..." rows="5" data-field="faithJourney.introduction"></textarea>
+            <h3>與神的關係</h3>
+            <textarea placeholder="記錄禱告生活、讀經心得、如何感受神的同在..." rows="5" data-field="faithJourney.relationshipWithGod"></textarea>
+            <h3>信仰的實踐與見證</h3>
+            <textarea placeholder="記錄參與服事、活出信仰的見證..." rows="5" data-field="faithJourney.faithInAction"></textarea>
+            <h3>邁向洗禮</h3>
+            <div class="form-group">
+                <label for="baptismPrep">洗禮預備：</label>
+                <textarea id="baptismPrep" rows="3" placeholder="記錄洗禮班學習、對洗禮意義的理解..." data-field="faithJourney.towardsBaptism.preparationNotes"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="baptismDecisionDate">決志日期：</label>
+                <input type="date" id="baptismDecisionDate" data-field="faithJourney.towardsBaptism.decisionDate">
+            </div>
+            <div class="form-group">
+                <label for="baptismDate">受洗日期：</label>
+                <input type="date" id="baptismDate" data-field="faithJourney.towardsBaptism.baptismDate">
+            </div>
+            <p>（可上傳洗禮照片/影片的功能未來可擴充）</p>
+        </section>
+
+        <section id="goalsReflection" class="tab-content">
+            <h2>目標設定与反思</h2>
+            <h3>我的目標</h3>
+            <textarea placeholder="記錄短期與長期目標（學業、品格、生活、信仰）..." rows="5" data-field="goalsReflection.goals"></textarea>
+            <h3>成長反思</h3>
+            <textarea placeholder="定期反思成長：學到了什麼？如何依靠神面對挑戰？..." rows="5" data-field="goalsReflection.reflections"></textarea>
+        </section>
+
+        <section id="milestones" class="tab-content">
+            <h2>珍藏回憶 / 里程碑</h2>
+            <textarea placeholder="記錄重要的成長時刻、獎項、照片描述等..." rows="10" data-field="milestones.memories"></textarea>
+            <p>（可上傳照片/文件的功能未來可擴充）</p>
+        </section>
+    </main>
+
+    <footer>
+        <button id="saveData">全部儲存到本機</button>
+        <p>&copy; <span id="currentYear"></span> 教會兒童與青少年事工部</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
